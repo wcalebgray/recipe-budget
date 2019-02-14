@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 import ReactTable from "react-table";
+import EditRecipe from "./EditRecipe";
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
 
 class InsertRowTable extends React.Component {
   constructor() {
     super();
     this.state = {
+      modalIsOpen: false,
       data: [{
-        id: 1,
-        name: 'Sweet Potatoes',
-        quantity: 1,
-        metric: 'lb',
-        price: 0.99
+        id: 10,
+        name: 'Roasted Sweet Potatoes',
+        type: 'side',
+        price: 3.69
       }]
     };
     this.renderEditable = this.renderEditable.bind(this);
     this.addBlankRow = this.addBlankRow.bind(this);
     this.deleteRow = this.deleteRow.bind(this);
+
+    this.onAfterCloseModal = this.onAfterCloseModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   addBlankRow() {
@@ -28,6 +48,25 @@ class InsertRowTable extends React.Component {
     newData.splice(index, 1);
     this.setState({data: newData});
     console.log("Row to Delete: ", index);
+  }
+
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
+
+  onAfterCloseModal() {
+    this.setState({recipeToEdit: null});
+  }
+
+  editRecipe(index) {
+    let recipes = [...this.state.data];
+    let editingRecipe = recipes[index];
+    this.setState({recipeToEdit: editingRecipe});
+    this.openModal();
   }
 
   renderEditable(cellInfo) {
@@ -58,20 +97,18 @@ class InsertRowTable extends React.Component {
         accessor: 'name',
         Cell: this.renderEditable
       }, {
-        Header: 'Quantity',
-        accessor: 'quantity',
-        Cell: this.renderEditable
-      }, {
-        Header: 'Metric',
-        accessor: 'metric',
+        Header: 'Type',
+        accessor: 'type',
         Cell: this.renderEditable
       }, {
         Header: 'Price',
         accessor: 'price',
-        Cell: this.renderEditable
       }, {
         id: 'delete',
         Cell: row => (<button onClick={()=>{this.deleteRow(row.index)}}>Delete</button>)
+      },{
+        id: 'edit',
+        Cell: row => (<button onClick={()=>{this.editRecipe(row.index)}}>Edit Ingredients</button>)
       },]
 
     return(
@@ -83,20 +120,32 @@ class InsertRowTable extends React.Component {
           minRows={0}
         />
         <button onClick={ this.addBlankRow }>Add</button>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          onAfterClose={this.onAfterCloseModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <EditRecipe
+            recipe={this.state.recipeToEdit}
+          />
+          <button onClick={this.closeModal}>close</button>
+        </Modal>
       </div>
     );
   }
 }
 
-class Items extends Component {
+class Recipes extends Component {
   render() {
     return (
-      <div className="Items">
-        <h2>Items</h2>
+      <div className="Recipes">
+        <h2>Recipes</h2>
         <InsertRowTable></InsertRowTable>
       </div>
     );
   }
 }
 
-export default Items;
+export default Recipes;

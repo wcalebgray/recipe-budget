@@ -12,3 +12,25 @@ To install from your terminal:
 `cd weather_app_tutorial` => `npm install` 
 
 #### This application was created with Node.js, Express, React and the Open Weather Map API found here: https://openweathermap.org/api
+
+
+Screen to view Recipes:
+  - table view of name, type, and total price
+  - table sortable (or excludable by type) by those fields
+  - edit button to open new screen/modal to edit
+  - delete button
+  - scrollable
+
+Screen to enter/edit Recipe in:
+  - one at a time
+  - Fields listed
+  - table for ingredients
+  - as ingredients table is updated, update total price in real time
+  - translate units/cost
+
+Screen to view Meals:
+  - Table
+  - add recipes by searching by name
+  - have quantity to scale
+  - calculates total cost of meal
+  - in future, add this as new data model

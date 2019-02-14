@@ -66,9 +66,8 @@ class InsertRowTable extends React.Component {
         accessor: 'metric',
         Cell: this.renderEditable
       }, {
-        Header: 'Price',
+        Header: 'Total Price',
         accessor: 'price',
-        Cell: this.renderEditable
       }, {
         id: 'delete',
         Cell: row => (<button onClick={()=>{this.deleteRow(row.index)}}>Delete</button>)
@@ -88,15 +87,17 @@ class InsertRowTable extends React.Component {
   }
 }
 
-class Items extends Component {
+class EditRecipe extends Component {
   render() {
     return (
-      <div className="Items">
-        <h2>Items</h2>
-        <InsertRowTable></InsertRowTable>
+      <div class="edit-recipe">
+        <h2>Recipe: {this.props.recipe.name}</h2>
+        <div>Type: {this.props.recipe.type}</div>
+        <div>TOTAL PRICE: {this.props.recipe.price}</div>
+        < InsertRowTable/>
       </div>
     );
   }
 }
 
-export default Items;
+export default EditRecipe;

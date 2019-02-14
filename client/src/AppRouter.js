@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Items from "./Items";
+import Recipes from "./Recipes";
 
 const Index = () => <h2>Home</h2>;
-const Recipes = () => <h2>Recipes</h2>;
 const Meals = () => <h2>Meals</h2>;
 
 const AppRouter = () => (
